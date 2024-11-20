@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Modal = ({ closeModal, billData }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const handleDownload = async () => {
+    setIsLoading(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 500)); 
+
+    navigate("/download-bill", { state: { billData } });
+
+    setIsLoading(false); 
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 px-4">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 md:p-8">
@@ -21,7 +33,7 @@ const Modal = ({ closeModal, billData }) => {
             Success
           </h1>
           <p className="text-gray-600 mb-6 text-sm md:text-base font-semibold">
-            Bill is Generated Sucessfully.
+            Bill is Generated Successfully.
           </p>
         </div>
 
@@ -32,11 +44,13 @@ const Modal = ({ closeModal, billData }) => {
           >
             Customer Table
           </button>
+
           <button
-            onClick={() => navigate("/download-bill", { state: { billData } })}
+            onClick={handleDownload}
             className="w-full md:w-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
+            disabled={isLoading}
           >
-            Download Bill
+            {isLoading ? "Generating..." : "Download Bill"}
           </button>
         </div>
       </div>
