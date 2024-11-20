@@ -1,9 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaDownload } from "react-icons/fa6";
-import { removeRaw } from './app/slice/BillSlice';
 import { MdDeleteSweep } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import TheBill from './TheBill'; // Ensure TheBill is correctly imported
+import { removeRaw } from './app/slice/BillSlice'; // Ensure removeRaw is correctly imported
 
 const CustomerTable = () => {
   const data = useSelector(state => {
@@ -11,9 +13,9 @@ const CustomerTable = () => {
     return state.billReducer.userBill;
   });
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-xl sm:text-2xl flex items-center justify-center font-semibold text-blue-700 mb-4">
@@ -69,14 +71,33 @@ const CustomerTable = () => {
                     ₹ {item.grandTotal}
                   </td>
                   <td className="py-2 px-4 gap-2 sm:text-sm items-center border-l-2 justify-center flex">
-                  <MdDeleteSweep className='text-red-600 hover:text-red-700 cursor-pointer' size={24} onClick={()=>dispatch(removeRaw(index))} />
-                  <FaDownload className='text-green-600 hover:text-green-700 cursor-pointer' size={20} onClick={() => navigate('/download-bill', { state: { billData: item } })} />
+                    {/* Delete Icon */}
+                    <MdDeleteSweep
+                      className='text-red-600 hover:text-red-700 cursor-pointer'
+                      size={24}
+                      onClick={() => dispatch(removeRaw(index))}
+                    />
+                    
+                    {/* PDFDownloadLink for Download Bill */}
+                    <PDFDownloadLink
+                      document={<TheBill billData={item} />}
+                      fileName={`bill_${item.customerName}_${item.billingDate}.pdf`}
+                    >
+                      {({ loading }) => (
+                        <FaDownload
+                          className='text-green-600 hover:text-green-700 cursor-pointer'
+                          size={20}
+                          onClick={() => {}}
+                          disabled={loading}
+                        />
+                      )}
+                    </PDFDownloadLink>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="py-4 text-center text-gray-500">
+                <td colSpan="7" className="py-4 text-center text-gray-500">
                   No data available
                 </td>
               </tr>
