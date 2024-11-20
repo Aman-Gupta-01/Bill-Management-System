@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CustomerTable from "./components/CustomerTable";
-import SideNav from "./components/sideNav";
+import SideNav from "./components/SideNav";
 import BillGenerator from "./components/BillGenerator";
 import LoginPage from './components/LoginPage'
 import Protected from "./components/Protected";
