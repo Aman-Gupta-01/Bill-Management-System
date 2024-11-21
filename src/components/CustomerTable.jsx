@@ -4,8 +4,8 @@ import { FaDownload } from "react-icons/fa6";
 import { MdDeleteSweep } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import TheBill from './TheBill'; // Ensure TheBill is correctly imported
-import { removeRaw } from './app/slice/BillSlice'; // Ensure removeRaw is correctly imported
+import TheBill from './TheBill';
+import { removeRaw } from './app/slice/BillSlice'; 
 
 const CustomerTable = () => {
   const data = useSelector(state => {
@@ -71,14 +71,12 @@ const CustomerTable = () => {
                     ₹ {item.grandTotal}
                   </td>
                   <td className="py-2 px-4 gap-2 sm:text-sm items-center border-l-2 justify-center flex">
-                    {/* Delete Icon */}
                     <MdDeleteSweep
                       className='text-red-600 hover:text-red-700 cursor-pointer'
                       size={24}
                       onClick={() => dispatch(removeRaw(index))}
                     />
                     
-                    {/* PDFDownloadLink for Download Bill */}
                     <PDFDownloadLink
                       document={<TheBill billData={item} />}
                       fileName={`bill_${item.customerName}_${item.billingDate}.pdf`}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import TheBill from './TheBill'; // Make sure TheBill is correctly imported
+import TheBill from './TheBill';
 
 const Modal = ({ closeModal, billData }) => {
   const navigate = useNavigate();
@@ -11,9 +11,8 @@ const Modal = ({ closeModal, billData }) => {
   const handleDownload = () => {
     setIsLoading(true);
 
-    // Wait for a brief moment to simulate loading
     setTimeout(() => {
-      setIsLoading(false); // Stop loading after timeout
+      setIsLoading(false);
     }, 500);
   };
 
@@ -46,14 +45,14 @@ const Modal = ({ closeModal, billData }) => {
             Customer Table
           </button>
 
-          <PDFDownloadLink
+          <PDFDownloadLink className="w-full md:w-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center"
             document={<TheBill billData={billData} />}
             fileName={`bill_${billData.customerName}.pdf`}
           >
             {({ loading }) => (
               <button
                 onClick={handleDownload}
-                className="w-full md:w-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
+                
                 disabled={isLoading || loading}
               >
                 {loading ? "Generating..." : "Download Bill"}
